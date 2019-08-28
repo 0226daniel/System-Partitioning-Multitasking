@@ -13,7 +13,7 @@ const r = readline.createInterface({
 io.on('connection', client => {
 	console.log('connection:', client.id)
 	clientWorkTime[client.id] = Date.now()
-	pop()
+	refresh()
 
 	client.on('disconnect', () => {
 		console.log('disconnect:', client.id)
@@ -24,12 +24,13 @@ io.on('connection', client => {
 		console.log(`#${data.id} ${'작업을 전달했습니다'.yellow}`)
 		clientWorkTime[client.id] = Infinity
 		workQueue.shift()
+		refresh()
 	})
 
 	client.on('done', data => {
 		console.log(`#${data.id} ${'작업이 완료되었습니다'.green}`)
 		clientWorkTime[client.id] = Date.now()
-		pop()
+		refresh()
 	})
 })
 
@@ -42,7 +43,7 @@ r.on('line', () => {
 		id: workId++,
 		workTime: (Math.random() * 7000) + 3000
 	})
-	pop()
+	refresh()
 })
 
 function getOldestId() {
@@ -61,7 +62,7 @@ function getOldestId() {
 	return oldestId
 }
 
-function pop() {
+function refresh() {
 	if (workQueue.length > 0) {
 		let id = getOldestId()
 		if (id)

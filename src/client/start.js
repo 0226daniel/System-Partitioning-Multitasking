@@ -10,10 +10,10 @@ io.on('disconnect', () => {
 	console.log('disconnect')
 })
 io.on('work', data => {
-	if (working)
+	if (!working){
 		io.emit('start', data)
-
-	startWork(data)
+		startWork(data)
+	}
 })
 
 function startWork(data) {
@@ -28,6 +28,7 @@ function startWork(data) {
 		bar.tick()
 		if (bar.complete) {
 			io.emit('done', data)
+			working = false
 			clearInterval(timer)
 		}
 	}, data.workTime / 100)
