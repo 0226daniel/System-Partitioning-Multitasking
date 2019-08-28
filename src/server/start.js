@@ -12,7 +12,7 @@ const r = readline.createInterface({
 
 io.on('connection', client => {
 	console.log('connection:', client.id)
-	clientWorkTime[client.id] = Date.now()
+	clientWorkTime[client.id] = 0
 	refresh()
 
 	client.on('disconnect', () => {
