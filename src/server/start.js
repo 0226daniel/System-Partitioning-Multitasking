@@ -39,7 +39,6 @@ let workId = 0
 r.on('line', () => {
 	console.log(`#${workId} ${'작업이 생성되었습니다'.red}`)
 	workQueue.push({
-		type: 'work',
 		id: workId++,
 		workTime: (Math.random() * 7000) + 3000
 	})
